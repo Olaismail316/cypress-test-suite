@@ -37,7 +37,7 @@ export const startTask = () => {
           
     });
 
-    cy.visit('/');
+    cy.visit('http://172.30.255.162:3000/');
     
        
     cy.get("input[id='form2Example18']").clear().type(username);
@@ -48,3 +48,6 @@ export const startTask = () => {
     cy.wait(3000)
   
   }
+
+
+ 

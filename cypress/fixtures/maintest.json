@@ -1,0 +1,13 @@
+{
+  "mainTestId": 1,
+  "mainTestName": "Flow",
+  "priority": "STAT",
+  "levelOfService": "PROFESSIONAL_ONLY",
+  "selectedCaseSpecimenIds": [
+    596
+  ],
+  "selectedTestPanelIds": [
+    20
+  ],
+  "caseId": 16999
+}

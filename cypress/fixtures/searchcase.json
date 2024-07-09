@@ -1,0 +1,10 @@
+
+    {
+    "queryParams": {
+    "page": "0", 
+    "size":"100",
+    "searchTerm":"on24",
+    "caseStatus":"SIGNED_OFF",
+    "clientId":"10"
+   }
+}

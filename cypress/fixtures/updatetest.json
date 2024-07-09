@@ -1,0 +1,12 @@
+{
+ "priority": "STAT",
+   "levelOfService": "PROFESSIONAL_ONLY",
+   "selectedCaseSpecimenIds": 
+                [
+                  110
+                ],
+                "selectedTestPanelIds": [
+                  35
+                ]
+              
+    }

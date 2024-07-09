@@ -1,0 +1,14 @@
+{
+  "data": {
+    "containerName": "Green Top Tube",
+    "typeName": "GTT",
+    "numberOfLabel": 4,
+    "specimenAmount": "4",
+    "identifier": "No identifier",
+    "comment": "Comment GTT",
+    "source": "Source GTT",
+    "bodySite": "body site GTT",
+    "procedure": "procedure GTT"
+  },
+  "caseId": 17012
+}

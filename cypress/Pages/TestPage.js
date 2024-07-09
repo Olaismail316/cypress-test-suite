@@ -16,20 +16,21 @@
     selectedTest(tst)
     
     {
-         cy.get(Test.selectedtest).select(tst)
+         cy.get(Test.selectedtest).select(tst).wait(3000)
          return this
+    
     }
    
    
     selectPanel(tp){
          
-        cy.get(Test.TriagedPanel).type(tp).type('{enter}')
+        cy.get(Test.TriagedPanel).type(tp).type('{enter}').wait(3000)
         return this
     }
    
     selectSpecmCount(sc)
     {
-         cy.get(Test.speccount).type(sc).type('{enter}')
+         cy.get(Test.speccount).type(sc).type('{enter}').wait(3000)
         return this
     
     }

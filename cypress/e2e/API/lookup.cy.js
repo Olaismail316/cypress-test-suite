@@ -1,568 +1,181 @@
 describe('onco Lookup ', function () 
 {
-let token, caseno, caseID,maintestid
-it.only("Get keytoken by login user", function ()
+let maintestid
+before(() => 
+    {
+        cy.getUserToken();
 
-{        
-    cy.request({
-        method: 'POST',
-        url: 'http://10.10.10.239:8081/user-api/v1/user/authenticate',
-
-        body: {
-            email: 'admin@siparadigm.com',
-            password: 'test'
-              }
-
-    }).then((response) => {
-        if (response.status === 200) {
-            cy.log('status is 200')
-            token = response.body.token
-            cy.log(JSON.stringify(token)) 
-        }
-        else {
-            cy.log('status is 403')
-        }
-    })
-})
+    });
 
 it.only('Get lookup attachement',function()
 {
-   
-    cy.request({
-        method: 'GET',
-        url: 'http://10.10.10.239:8082/case-api/v1/lookup/attachments',
-        
-        headers: {
-            Authorization: 'Bearer '+ token
-                    },
-    
-    }).then
-    ((response) => {
-        if (response.status === 200) 
-        {
-            cy.log('status is 200')
+    cy.sendApiRequest('GET', 'lookup/attachments', '', Cypress.env("userToken"));
+        cy.getApiResponse().then((response) => {
             cy.log(JSON.stringify(response.body)) 
-
-        }
-        else 
-        
-        {
-            cy.log('status is 403')
-        }
-    })
+       
+        });  
+   
 })
 it.only("get main test panels", function ()
     
-{        
-    cy.request({
-        method: 'GET',
-        url: 'http://10.10.10.239:8082/case-api/v1/lookup/mainTest/1/panels?clientId=10&mainTestId=1',
-        headers: {
-        Authorization: 'Bearer '+ token
-                  },
-        qs: 
-        {
-          clientId:'10',
-          mainTestId: '1'
-         },
-            }).then((response) => {
-        if (response.status === 200) 
-        {
-          cy.log('status is 200')
-          let A = response.body
-          cy.log(JSON.stringify(A)) 
-        }
-        else 
-        {
-            cy.log('status is 403')
-        }
-    })
+{  
+    cy.fixture('testpanel.json').then((testData) => 
+        {  
+    cy.sendApiRequest('GET', 'lookup/mainTest/1/panels?clientId=10&mainTestId=1', '', Cypress.env("userToken"),testData);
+    cy.getApiResponse().then((response) => {
+        cy.log(JSON.stringify(response.body)) 
+   
+    });
+})     
+   
      })
 
 it.only('Get maintest',function()
 {
+    cy.sendApiRequest('GET', 'lookup/mainTests', '', Cypress.env("userToken"));
+    cy.getApiResponse().then((response) => {
+    cy.log(JSON.stringify(response.body)) 
    
-    cy.request({
-        method: 'GET',
-        url: 'http://10.10.10.239:8082/case-api/v1/lookup/mainTests',
-        
-        headers: {
-            Authorization: 'Bearer '+ token
-                    },
+    });     
     
-    }).then
-    ((response) => {
-        if (response.status === 200) 
-        {
-            cy.log('status is 200')
-            cy.log(JSON.stringify(response.body)) 
-
-        }
-        else 
-        
-        {
-            cy.log('status is 403')
-        }
-    })
 })
 
 it.only('Specimen Source',function()
-{
-    
-    cy.request({
-        method: 'GET',
-        url: 'http://10.10.10.239:8082/case-api/v1/lookup/specimenSources',
+    {
+        cy.sendApiRequest('GET', 'lookup/specimenSources', '', Cypress.env("userToken"));
+        cy.getApiResponse().then((response) => {
+           cy.log(JSON.stringify(response.body))
+        });    
         
-        headers: {
-            Authorization: 'Bearer '+ token
-                    },
-    
-    }).then
-    ((response) => {
-        if (response.status === 200) 
-        {
-            cy.log('status is 200')
-          //  cy.log(response.body)
-            cy.log(JSON.stringify(response.body)) 
-
-        }
-        else 
-        
-        {
-            cy.log('status is 403')
-        }
     })
-})
-it.only('Specimen Procedures',function()
-{
-    
-    cy.request({
-        method: 'GET',
-        url: 'http://10.10.10.239:8082/case-api/v1/lookup/specimenProcedures',
-        
-        headers: {
-            Authorization: 'Bearer '+ token
-                    },
-    
-    }).then
-    ((response) => {
-        if (response.status === 200) 
-        {
-            cy.log('status is 200')
-            //cy.log(response.body)
-            cy.log(JSON.stringify(response.body)) 
-
-        }
-        else 
-        
-        {
-            cy.log('status is 403')
-        }
+    it.only('Specimen Procedures',function()
+    {
+        cy.sendApiRequest('GET', 'lookup/specimenProcedures', '', Cypress.env("userToken"));
+        cy.getApiResponse().then((response) => {
+           cy.log(JSON.stringify(response.body))
+        });     
+       
     })
-})
-it.only('Specimen Containers',function()
-{
-    
-    cy.request({
-        method: 'GET',
-        url: 'http://10.10.10.239:8082/case-api/v1/lookup/specimenContainers',
+    it.only('Specimen Containers',function()
+    {
+        cy.sendApiRequest('GET', 'lookup/specimenContainers', '', Cypress.env("userToken"));
+        cy.getApiResponse().then((response) => {
+           cy.log(JSON.stringify(response.body))
+        }); 
         
-        headers: {
-            Authorization: 'Bearer '+ token
-                    },
-    
-    }).then
-    ((response) => {
-        if (response.status === 200) 
-        {
-            cy.log('status is 200')
-          //  cy.log(response.body)
-          cy.log(JSON.stringify(response.body)) 
-
-        }
-        else 
-        
-        {
-            cy.log('status is 403')
-        }
     })
-})
-it.only('Specimen conatiner Types',function()
-{
-    
-    cy.request({
-        method: 'GET',
-        url: 'http://10.10.10.239:8082/case-api/v1/lookup/specimenContainer/1/types',
-        
-        headers: {
-            Authorization: 'Bearer '+ token
-                    },
-    
-    }).then
-    ((response) => {
-        if (response.status === 200) 
-        {
-            cy.log('status is 200')
-           // cy.log(response.body)
-           cy.log(JSON.stringify(response.body)) 
-
-        }
-        else 
-        
-        {
-            cy.log('status is 403')
-        }
+    it.only('Specimen conatiner Types',function()
+    {
+        cy.sendApiRequest('GET', 'lookup/specimenContainer/1/types', '', Cypress.env("userToken"));
+        cy.getApiResponse().then((response) => {
+           cy.log(JSON.stringify(response.body))
+        });  
+      
     })
-})
-it.only('Specimen Body Sites',function()
-{
-    
-    cy.request({
-        method: 'GET',
-        url: 'http://10.10.10.239:8082/case-api/v1/lookup/specimenBodySites',
-        
-        headers: {
-            Authorization: 'Bearer '+ token
-                    },
-    
-    }).then
-    ((response) => {
-        if (response.status === 200) 
-        {
-            cy.log('status is 200')
-          //  cy.log(response.body)
-            cy.log(JSON.stringify(response.body)) 
-
-        }
-        else 
-        
-        {
-            cy.log('status is 403')
-        }
+    it.only('Specimen Body Sites',function()
+    {
+        cy.sendApiRequest('GET', 'lookup/specimenBodySites', '', Cypress.env("userToken"));
+        cy.getApiResponse().then((response) => {
+           cy.log(JSON.stringify(response.body))
+        });
+  
     })
-})
 it.only('get Priorities',function()
 {
+    cy.sendApiRequest('GET', 'lookup/priorities', '', Cypress.env("userToken"));
+    cy.getApiResponse().then((response) => {
+    cy.log(JSON.stringify(response.body)) 
+    });   
     
-    cy.request({
-        method: 'GET',
-        url: 'http://10.10.10.239:8082/case-api/v1/lookup/priorities',
-        
-        headers: {
-            Authorization: 'Bearer '+ token
-                    },
-    
-    }).then
-    ((response) => {
-        if (response.status === 200) 
-        {
-            cy.log('status is 200')
-          //  cy.log(response.body)
-            cy.log(JSON.stringify(response.body)) 
-
-        }
-        else 
-        
-        {
-            cy.log('status is 403')
-        }
-    })
 })
 it.only('get level of service',function()
 {
-    
-    cy.request({
-        method: 'GET',
-        url: 'http://10.10.10.239:8082/case-api/v1/lookup/levelOfService',
-        
-        headers: {
-            Authorization: 'Bearer '+ token
-                    },
-    
-    }).then
-    ((response) => {
-        if (response.status === 200) 
-        {
-            cy.log('status is 200')
-          //  cy.log(response.body)
-            cy.log(JSON.stringify(response.body)) 
-
-        }
-        else 
-        
-        {
-            cy.log('status is 403')
-        }
-    })
+    cy.sendApiRequest('GET', 'lookup/levelOfService', '', Cypress.env("userToken"));
+    cy.getApiResponse().then((response) => {
+    cy.log(JSON.stringify(response.body)) 
+    });   
+   
 })
 it.only('get case categories',function()
 {
+    cy.sendApiRequest('GET', 'lookup/categories', '', Cypress.env("userToken"));
+    cy.getApiResponse().then((response) => {
+    cy.log(JSON.stringify(response.body)) 
+    }); 
     
-    cy.request({
-        method: 'GET',
-        url: 'http://10.10.10.239:8082/case-api/v1/lookup/categories',
-        
-        headers: {
-            Authorization: 'Bearer '+ token
-                    },
-    
-    }).then
-    ((response) => {
-        if (response.status === 200) 
-        {
-            cy.log('status is 200')
-          //  cy.log(response.body)
-            cy.log(JSON.stringify(response.body)) 
-
-        }
-        else 
-        
-        {
-            cy.log('status is 403')
-        }
-    })
 })
+    
+  
 it.only('get state',function()
 {
     
-    cy.request({
-        method: 'GET',
-        url: 'http://10.10.10.239:8082/case-api/v1/lookup/states',
-        
-        headers: {
-            Authorization: 'Bearer '+ token
-                    },
-    
-    }).then
-    ((response) => {
-        if (response.status === 200) 
-        {
-            cy.log('status is 200')
-          //  cy.log(response.body)
-            cy.log(JSON.stringify(response.body)) 
-
-        }
-        else 
-        
-        {
-            cy.log('status is 403')
-        }
-    })
+    cy.sendApiRequest('GET', 'lookup/states', '', Cypress.env("userToken"));
+    cy.getApiResponse().then((response) => {
+    cy.log(JSON.stringify(response.body)) 
+    }); 
 })
 it.only('get city',function()
 {
+    cy.sendApiRequest('GET', 'state/25/cities', '', Cypress.env("userToken"));
+    cy.getApiResponse().then((response) => {
+    cy.log(JSON.stringify(response.body)) 
+    }); 
     
-    cy.request({
-        method: 'GET',
-        url: 'http://10.10.10.239:8082/case-api/v1/lookup/state/25/cities',
-        
-        headers: {
-            Authorization: 'Bearer '+ token
-                    },
-    
-    }).then
-    ((response) => {
-        if (response.status === 200) 
-        {
-            cy.log('status is 200')
-          //  cy.log(response.body)
-            cy.log(JSON.stringify(response.body)) 
-
-        }
-        else 
-        
-        {
-            cy.log('status is 403')
-        }
-    })
 })
 it.only('get race',function()
 {
     
-    cy.request({
-        method: 'GET',
-        url: 'http://10.10.10.239:8082/case-api/v1/lookup/races',
-        
-        headers: {
-            Authorization: 'Bearer '+ token
-                    },
-    
-    }).then
-    ((response) => {
-        if (response.status === 200) 
-        {
-            cy.log('status is 200')
-          //  cy.log(response.body)
-            cy.log(JSON.stringify(response.body)) 
-
-        }
-        else 
-        
-        {
-            cy.log('status is 403')
-        }
-    })
+    cy.sendApiRequest('GET', 'lookup/races', '', Cypress.env("userToken"));
+    cy.getApiResponse().then((response) => {
+    cy.log(JSON.stringify(response.body)) 
+    }); 
 })
 it.only('get sexual orientation',function()
 {
-    
-    cy.request({
-        method: 'GET',
-        url: 'http://10.10.10.239:8082/case-api/v1/lookup/sexualOrientation',
+    cy.sendApiRequest('GET', 'lookup/sexualOrientation', '', Cypress.env("userToken"));
+    cy.getApiResponse().then((response) => {
+    cy.log(JSON.stringify(response.body)) 
+    });  
         
-        headers: {
-            Authorization: 'Bearer '+ token
-                    },
-    
-    }).then
-    ((response) => {
-        if (response.status === 200) 
-        {
-            cy.log('status is 200')
-          //  cy.log(response.body)
-            cy.log(JSON.stringify(response.body)) 
-
-        }
-        else 
-        
-        {
-            cy.log('status is 403')
-        }
-    })
 })
 it.only('get ethnicities',function()
 {
+    cy.sendApiRequest('GET', 'lookup/ethnicities', '', Cypress.env("userToken"));
+    cy.getApiResponse().then((response) => {
+    cy.log(JSON.stringify(response.body)) 
+    });   
     
-    cy.request({
-        method: 'GET',
-        url: 'http://10.10.10.239:8082/case-api/v1/lookup/ethnicities',
-        
-        headers: {
-            Authorization: 'Bearer '+ token
-                    },
-    
-    }).then
-    ((response) => {
-        if (response.status === 200) 
-        {
-            cy.log('status is 200')
-          //  cy.log(response.body)
-            cy.log(JSON.stringify(response.body)) 
-
-        }
-        else 
-        
-        {
-            cy.log('status is 403')
-        }
-    })
 })
 it.only('get icd10',function()
 {
+    cy.sendApiRequest('GET', 'lookup/icd10?searchTerm=ABC', '', Cypress.env("userToken"));
+    cy.getApiResponse().then((response) => {
+    cy.log(JSON.stringify(response.body)) 
+    });   
     
-    cy.request({
-        method: 'GET',
-        url: 'http://10.10.10.239:8082/case-api/v1/lookup/icd10?searchTerm=ABC',
-        
-        headers: {
-            Authorization: 'Bearer '+ token
-                    },
-    
-    }).then
-    ((response) => {
-        if (response.status === 200) 
-        {
-            cy.log('status is 200')
-          //  cy.log(response.body)
-            cy.log(JSON.stringify(response.body)) 
-
-        }
-        else 
-        
-        {
-            cy.log('status is 403')
-        }
-    })
 })
 it.only('get stage of disease',function()
 {
+    cy.sendApiRequest('GET', 'lookup/stageOfDisease', '', Cypress.env("userToken"));
+    cy.getApiResponse().then((response) => {
+    cy.log(JSON.stringify(response.body)) 
+    });   
     
-    cy.request({
-        method: 'GET',
-        url: 'http://10.10.10.239:8082/case-api/v1/lookup/stageOfDisease',
-        
-        headers: {
-            Authorization: 'Bearer '+ token
-                    },
-    
-    }).then
-    ((response) => {
-        if (response.status === 200) 
-        {
-            cy.log('status is 200')
-          //  cy.log(response.body)
-            cy.log(JSON.stringify(response.body)) 
-
-        }
-        else 
-        
-        {
-            cy.log('status is 403')
-        }
-    })
 })
 it.only('reset lookups',function()
 {
+    cy.sendApiRequest('DELETE', 'lookup/reset', '', Cypress.env("userToken"));
+    cy.getApiResponse().then((response) => {
+    cy.log(JSON.stringify(response.body)) 
+    });    
     
-    cy.request({
-        method: 'Delete',
-        url: 'http://10.10.10.239:8082/case-api/v1/lookup/reset',
-        
-        headers: {
-            Authorization: 'Bearer '+ token
-                    },
-    
-    }).then
-    ((response) => {
-        if (response.status === 200) 
-        {
-            cy.log('status is 200')
-          //  cy.log(response.body)
-            cy.log(JSON.stringify(response.body)) 
-
-        }
-        else 
-        
-        {
-            cy.log('status is 403')
-        }
-    })
 })
 it.only('delete races',function()
 {
-    
-    cy.request({
-        method: 'Delete',
-        url: 'http://10.10.10.239:8082/case-api/v1/lookup/reset/races',
-        
-        headers: {
-            Authorization: 'Bearer '+ token
-                    },
-    
-    }).then
-    ((response) => {
-        if (response.status === 200) 
-        {
-            cy.log('status is 200')
-          //  cy.log(response.body)
-            cy.log(JSON.stringify(response.body)) 
-
-        }
-        else 
-        
-        {
-            cy.log('status is 403')
-        }
-    })
+    cy.sendApiRequest('DELETE', 'lookup/reset/races', '', Cypress.env("userToken"));
+    cy.getApiResponse().then((response) => {
+    cy.log(JSON.stringify(response.body)) 
+    });    
+   
 })
 })

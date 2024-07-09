@@ -1,0 +1,95 @@
+{
+    "patient": {
+                        "id": 67,
+                        "ssn": "102365489",
+                        "firstName": "AHLAM upd",
+                        "middleInitial": "st",
+                        "lastName": "AHLAM upd",
+                        "dob": "2024-04-04T09:42:57.535Z",
+                        "gender": "male",
+                        "state": "Alaska",
+                        "city": "Adak",
+                        "address": "Address update",
+                        "zipCode": "1023",
+                        "cellPhone": "01022547896",
+                        "homePhone": "021456987",
+                        "mrn": "MRN update",
+                        "race": "Other",
+                        "ethnicity": "Other",
+                        "sexualOrientation": "Not Provided",
+                        "sexualOrientationDescribe": "No desc"
+                      },
+                      "client": {
+                        "id": 10,
+                        "name": "Oncoupdate",
+                        "clientId": "Onco",
+                        "priorityId": 1,
+                        "priority": "STAT"
+                      },
+                      "attendingPhysician": "Admin",
+                      "attendingPhysicianId": 1,
+                      "referringPhysicianId": 1,
+                      "referringPhysicianName": "Admin",
+                      "caseCategory": "OX",
+                      "levelOfService": "PROFESSIONAL_ONLY",
+                      "requisitionNumber": "requpdate",
+                      "requisitionType": "req_ty_update",
+                      "specimenNumber": "spec_update",
+                      "referringInstitutionBlock": "ref_ins_blck",
+                      "reportType": "final",
+                      "reportTemplate": "string",
+                      "reportFormat": "string",
+                      "requestedDate": "2024-04-04T09:42:57.535Z",
+                      "indication": "indo",
+                      "testCode": "z23",
+                      "billingInfo": "INSURANCE",
+                      "specimens": [
+                        {
+                          "id": 0,
+                          "data": {
+                            "containerName": "Green top tube",
+                            "typeName": "FNA (FNA)",
+                            "numberOfLabel": 0,
+                            "labelId": "string",
+                            "specimenAmount": "100",
+                            "identifier": "iden",
+                            "comment": "cmt up",
+                            "source": "string",
+                            "bodySite": "string",
+                            "procedure": "string",
+                            "repeatNumber": "string"
+                          }
+                        }
+                    
+                ],
+                "newCaseMainTests": [
+                  {
+                    "caseId": 16831,
+                    "mainTestId": 1,
+                    "mainTestName": "Flow cyto",
+                    "priority": "STAT",
+                    "levelOfService": "PROFESSIONAL_ONLY",
+                    "selectedCaseSpecimenIds": [
+                      596
+                    ],
+                    "selectedTestPanelIds": [
+                      20
+                    ]
+                  }
+                ],
+                
+                "updatedCaseMainTests": [
+                  {
+                    "id": 1000,
+                    "priority": "STAT",
+                    "levelOfService": "PROFESSIONAL_ONLY",
+                    "selectedCaseSpecimenIds": [
+                      596
+                    ],
+                    "selectedTestPanelIds": [
+                      20
+                    ]
+                  }
+                ]
+            }
+        

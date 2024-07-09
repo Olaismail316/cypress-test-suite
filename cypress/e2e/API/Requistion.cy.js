@@ -1,54 +1,45 @@
 describe('Case Requistion test Suite', function () 
 
 {
-    let token
+    let casecode,caseid;
+    before(() => 
+    {
+        cy.getUserToken();
 
-it.only("Login", function ()
+    });
+      
+it.only('Create a new Case',function()
+{
+    cy.fixture('casecreate.json').then((userData) => 
+    {
+        cy.sendApiRequest('POST', '/case', userData, Cypress.env("userToken"));
+        cy.getApiResponse().then((response) => {
+           casecode = response; 
+        });
     
-{        
-    cy.request({
-        method: 'POST',
-        url: 'http://10.10.10.239:8081/user-api/v1/user/authenticate',
 
-        body: {
-            email: 'admin@siparadigm.com',
-            password: 'test'
-              }
-
-    }).then((response) => {
-        if (response.status === 200) {
-            cy.log('status is 200')
-            token = response.body.token
-            cy.log(JSON.stringify(token)) 
-        }
-        else {
-            cy.log('status is 403')
-        }
-    })
-})   
-
-
-it.only("Get Requisition", function ()
+     })
+});
+    it.only("Find caseID by CaseCode", function ()
     
-{        
-    cy.request({
-        method: 'GET',
-        url: 'http://10.10.10.239:8082/case-api/v1/case/17038/requisition',
-
-       headers: {
-                Authorization: 'Bearer '+ token
-                        },
-
-    }).then((response) => {
-        if (response.status === 200) {
-            cy.log('status is 200')
-            
-            cy.log(response.body) 
-        }
-        else {
-            cy.log('status is 403')
-        }
+    {  
+        cy.sendApiRequest('GET', 'case/'+casecode, '', Cypress.env("userToken"));
+        cy.getApiResponse().then((response) => {
+            caseid=response.caseId
+       
+        });
+     
     })
+
+it.only("Verify that the requistion gets download successfully", function ()
+    
+{  
+    cy.sendApiRequest('GET', 'case/'+caseid+'/requisition', '', Cypress.env("userToken"));
+    cy.getApiResponse().then((response) => {
+        cy.log(response.body) 
+   
+    });      
+   
 })   
 
 

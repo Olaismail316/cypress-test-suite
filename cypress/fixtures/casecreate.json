@@ -1,0 +1,62 @@
+{
+  "patient": {
+                      "id": 67,
+                      "ssn": "102365489",
+                      "firstName": "AHLAM 3",
+                      "middleInitial": "st",
+                      "lastName": "AHLAM",
+                      "dob": "2024-04-04T09:42:57.535Z",
+                      "gender": "male",
+                      "state": "string",
+                      "city": "string",
+                      "address": "string",
+                      "zipCode": "string",
+                      "cellPhone": "string",
+                      "homePhone": "string",
+                      "mrn": "string",
+                      "race": "string",
+                      "ethnicity": "string",
+                      "sexualOrientation": "string",
+                      "sexualOrientationDescribe": "string"
+                    },
+                    "client": {
+                      "id": 10,
+                      "name": "string",
+                      "clientId": "string",
+                      "priorityId": 1,
+                      "priority": "STAT"
+                    },
+                    "attendingPhysicianId": 1,
+                    "referringPhysicianId": 1,
+                    "caseCategory": "OX",
+                    "levelOfService": "PROFESSIONAL_ONLY",
+                    "requisitionNumber": "string",
+                    "requisitionType": "string",
+                    "specimenNumber": "string",
+                    "referringInstitutionBlock": "string",
+                    "reportType": "string",
+                    "reportTemplate": "string",
+                    "reportFormat": "string",
+                    "requestedDate": "2024-04-04T09:42:57.535Z",
+                    "indication": "string",
+                    "testCode": "string",
+                    "billingInfo": "INSURANCE",
+                    "specimens": [
+                      {
+                        "id": 0,
+                        "data": {
+                          "containerName": "string",
+                          "typeName": "string",
+                          "numberOfLabel": 0,
+                          "labelId": "string",
+                          "specimenAmount": "string",
+                          "identifier": "string",
+                          "comment": "string",
+                          "source": "string",
+                          "bodySite": "string",
+                          "procedure": "string",
+                          "repeatNumber": "string"
+                        }
+                      }
+                    ]
+                   }

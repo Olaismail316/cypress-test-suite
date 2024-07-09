@@ -2,272 +2,112 @@
 describe('Case Specimen test Suite', function () 
 
 {
-    let token, specimenID
-    it.only("Get keytoken by login user", function ()
+    let caseCode,caseId,specimenID;
+
+    before(() => 
+    {
+        cy.getUserToken();
+
+    });
+
+    it.only('Create a new Case',function()
+    {
+        cy.fixture('casecreate.json').then((caseData) => 
+        {
+            cy.sendApiRequest('POST', '/case', caseData, Cypress.env("userToken"));
+            cy.getApiResponse().then((response) => {
+               caseCode = response; 
+               cy.log(caseCode)
+            });
+        
     
-    {        
-        cy.request({
-            method: 'POST',
-            url: 'http://10.10.10.239:8081/user-api/v1/user/authenticate',
+         })
+    });
+ it.only("Find caseID by CaseCode", function ()
+        
+        {  
+            cy.sendApiRequest('GET', 'case/'+caseCode, '', Cypress.env("userToken"));
+            cy.getApiResponse().then((response) => {
+                caseId=response.caseId
+                cy.log(caseId)
+            });
+         
+        })  
 
-            body: {
-                email: 'admin@siparadigm.com',
-                password: 'test'
-                  }
 
-        }).then((response) => {
-            if (response.status === 200) {
-                cy.log('status is 200')
-                token = response.body.token
-                cy.log(JSON.stringify(token)) 
-            }
-            else {
-                cy.log('status is 403')
-            }
-        })
-    })
     it.only('Add Specimen',function()
     {
-       
-        cy.request({
-            method: 'POST',
-            url: 'http://10.10.10.239:8082/case-api/v1/caseSpecimen',
-            
-            headers: {
-                Authorization: 'Bearer '+ token
-                        },
-            body: 
-             {
-                "caseId": 17461,
-                "data":
-                 {
-                  "containerName": "Green Top Tube",
-                  "typeName": "GTT",
-                  "numberOfLabel": 4,
-                  "specimenAmount": "4",
-                  "identifier": "No identifier",
-                  "comment": "Comment GTT",
-                  "source": "Source GTT",
-                  "bodySite": "body site GTT",
-                  "procedure": "procedure GTT"
-                  }
-              
-              }
-
-        }).then
-        ((response) => {
-            if (response.status === 200) 
-            {
-                cy.log('status is 200')
-                specimenID =response.body.id
-               cy.log(specimenID)
-
-            }
-            else 
-            
-            {
-                cy.log('status is 403')
-            }
+        cy.fixture('specimen.json').then((specimenData) => {
+         // const  filePath = 'cypress/fixtures/specimen.json';
+            cy.task('writeCaseidToJsonFile',caseId).then(() => {
+                cy.log(`CaseId "${caseId}" has been written to the JSON file`);
+              });
+              cy.sendApiRequest('POST', '/caseSpecimen', specimenData, Cypress.env("userToken"));
+              cy.getApiResponse().then((response) => {
+                 specimenID = response.body.id;
+                 cy.log(specimenID)
+              });
         })
+
     })
     it.only('Update Specimen',function()
     {
-       
-        cy.request({
-            method: 'PUT',
-            url: 'http://10.10.10.239:8082/case-api/v1/caseSpecimen/'+specimenID,
-            
-            headers: {
-                Authorization: 'Bearer '+ token
-                        },
-            body: 
-             {
-        "containerName": "Lavendar tube",
-        "typeName": "No type name",
-         "numberOfLabel": 2,
-         "specimenAmount": "5",
-         "identifier": "No",
-         "comment": "No",
-         "source": "No",
-         "bodySite": "No",
-         "procedure": "string"  
-              }
+        cy.fixture('specimen.json').then((specimenData) => {
 
-        }).then
-        ((response) => {
-            if (response.status === 200) 
-            {
-                cy.log('status is 200')
-                cy.log(JSON.stringify(response.body)) 
+                     cy.sendApiRequest('PUT', '/caseSpecimen'+specimenID, specimenData, Cypress.env("userToken"));
+                     cy.getApiResponse().then((response) => {
+                       cy.log(JSON.stringify(response.body))
+                     });
+               })
 
-            }
-            else 
-            
-            {
-                cy.log('status is 403')
-            }
-        })
     })
 
     it.only('Delete Specimen',function()
     {
+        cy.sendApiRequest('DELETE', 'caseSpecimen/'+specimenID, '', Cypress.env("userToken"));
+        cy.getApiResponse().then((response) => {
+           cy.log(JSON.stringify(response.body))
+        }); 
        
-        cy.request({
-            method: 'DELETE',
-            url: 'http://10.10.10.239:8082/case-api/v1/caseSpecimen/'+specimenID,
-            
-            headers: {
-                Authorization: 'Bearer '+ token
-                        },
-        
-        }).then
-        ((response) => {
-            if (response.status === 200) 
-            {
-                cy.log('status is 200')
-                cy.log(JSON.stringify(response.body)) 
-
-            }
-            else 
-            
-            {
-                cy.log('status is 403')
-            }
-        })
     })
     it.only('Specimen Source',function()
     {
+        cy.sendApiRequest('GET', 'lookup/specimenSources', '', Cypress.env("userToken"));
+        cy.getApiResponse().then((response) => {
+           cy.log(JSON.stringify(response.body))
+        });    
         
-        cy.request({
-            method: 'GET',
-            url: 'http://10.10.10.239:8082/case-api/v1/lookup/specimenSources',
-            
-            headers: {
-                Authorization: 'Bearer '+ token
-                        },
-        
-        }).then
-        ((response) => {
-            if (response.status === 200) 
-            {
-                cy.log('status is 200')
-              //  cy.log(response.body)
-                cy.log(JSON.stringify(response.body)) 
-
-            }
-            else 
-            
-            {
-                cy.log('status is 403')
-            }
-        })
     })
     it.only('Specimen Procedures',function()
     {
-        
-        cy.request({
-            method: 'GET',
-            url: 'http://10.10.10.239:8082/case-api/v1/lookup/specimenProcedures',
-            
-            headers: {
-                Authorization: 'Bearer '+ token
-                        },
-        
-        }).then
-        ((response) => {
-            if (response.status === 200) 
-            {
-                cy.log('status is 200')
-                //cy.log(response.body)
-                cy.log(JSON.stringify(response.body)) 
-
-            }
-            else 
-            
-            {
-                cy.log('status is 403')
-            }
-        })
+        cy.sendApiRequest('GET', 'lookup/specimenProcedures', '', Cypress.env("userToken"));
+        cy.getApiResponse().then((response) => {
+           cy.log(JSON.stringify(response.body))
+        });     
+       
     })
     it.only('Specimen Containers',function()
     {
+        cy.sendApiRequest('GET', 'lookup/specimenContainers', '', Cypress.env("userToken"));
+        cy.getApiResponse().then((response) => {
+           cy.log(JSON.stringify(response.body))
+        }); 
         
-        cy.request({
-            method: 'GET',
-            url: 'http://10.10.10.239:8082/case-api/v1/lookup/specimenContainers',
-            
-            headers: {
-                Authorization: 'Bearer '+ token
-                        },
-        
-        }).then
-        ((response) => {
-            if (response.status === 200) 
-            {
-                cy.log('status is 200')
-              //  cy.log(response.body)
-              cy.log(JSON.stringify(response.body)) 
-
-            }
-            else 
-            
-            {
-                cy.log('status is 403')
-            }
-        })
     })
     it.only('Specimen conatiner Types',function()
     {
-        
-        cy.request({
-            method: 'GET',
-            url: 'http://10.10.10.239:8082/case-api/v1/lookup/specimenContainer/1/types',
-            
-            headers: {
-                Authorization: 'Bearer '+ token
-                        },
-        
-        }).then
-        ((response) => {
-            if (response.status === 200) 
-            {
-                cy.log('status is 200')
-               // cy.log(response.body)
-               cy.log(JSON.stringify(response.body)) 
-
-            }
-            else 
-            
-            {
-                cy.log('status is 403')
-            }
-        })
+        cy.sendApiRequest('GET', 'lookup/specimenContainer/1/types', '', Cypress.env("userToken"));
+        cy.getApiResponse().then((response) => {
+           cy.log(JSON.stringify(response.body))
+        });  
+      
     })
     it.only('Specimen Body Sites',function()
     {
-        
-        cy.request({
-            method: 'GET',
-            url: 'http://10.10.10.239:8082/case-api/v1/lookup/specimenBodySites',
-            
-            headers: {
-                Authorization: 'Bearer '+ token
-                        },
-        
-        }).then
-        ((response) => {
-            if (response.status === 200) 
-            {
-                cy.log('status is 200')
-              //  cy.log(response.body)
-                cy.log(JSON.stringify(response.body)) 
-
-            }
-            else 
-            
-            {
-                cy.log('status is 403')
-            }
-        })
+        cy.sendApiRequest('GET', 'lookup/specimenBodySites', '', Cypress.env("userToken"));
+        cy.getApiResponse().then((response) => {
+           cy.log(JSON.stringify(response.body))
+        });
+  
     })
 })

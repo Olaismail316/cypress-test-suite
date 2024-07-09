@@ -34,6 +34,7 @@ class casePage {
     this.ReferringPhysician.select(ref)
     return this
   }
+
   get reqNo() {
     return "input#requisitionNumber"
   }
@@ -241,7 +242,8 @@ class casePage {
     return this
   }
   get specimenAddButton() {
-    return cy.get("button[class='btn specimen-add-btn btn btn-primary']");
+    return cy.get("button[class='btn specimen-add-btn btn-danger btn btn-primary']");
+    
   }
 
   addSpec() {

@@ -1,0 +1,26 @@
+{
+    "auth": {
+     "username": "olaismail_FhxPtN",
+    "access_key": "6HoeBkK3TX2639ozq9Xf"
+    },
+    "browsers": [
+        {
+            "browser": "chrome",
+            "os": "Windows 10",
+            "versions": [
+                "78",
+                "77"
+            ]
+        }
+    ],
+    "run_settings": {
+        "specs": [
+            "folder_path_with_files/*.js"
+        ],
+        "project": "project-name",
+        "customBuildName": "build-name"
+    },
+    "connection_settings": {
+        "local": false
+    }
+}
